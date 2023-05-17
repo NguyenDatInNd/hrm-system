@@ -1,305 +1,47 @@
 import React from "react";
-import { Divider, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import { debounce } from "lodash";
-import iconAdd from "../../css/img/iconAdd.svg";
-// import iconDelete from "../../css/img/iconDelete.svg";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Checkbox from "@mui/material/Checkbox";
-import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import {
-  Button,
-  CircularProgress,
-  Pagination,
-  Typography,
-} from "@mui/material";
-import { fetchDataEmployee } from "../../redux/reducer";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Button, Tabs } from "antd";
+import { Tab } from "@mui/material";
 
-interface EnhancedTableProps {
-  numSelected: number;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  rowCount: number;
-}
-
-const ButtonAddStyled = styled(Button)`
-  .css-1qbafs2-MuiButtonBase-root-MuiButton-root:hover {
-    color: rgb(0, 145, 255);
-    background: rgb(237, 246, 255)!important;
-    box-shadow: none;
-  }
-`;
-
-const ButtonDeleteStyled = styled(Button)`
-  :where(.css-dev-only-do-not-override-yp8pcc).ant-btn-default {
-    background: #f8f9fa;
-    color: #c1c8cdcc;
-    border: none;
-  }
-`;
-
-const EmployeeManagement: React.FC = () => {
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState<number>(1);
-  const [search, setSearch] = React.useState<string>("");
-  const [rowsID, setRowsID] = React.useState<number>();
-  const isSelected = (staff_id: string) => selected.indexOf(staff_id) !== -1;
-  const dispatch = useAppDispatch();
+const UpdateEmployee: React.FC = () => {
+  const { index } = useParams();
   const navigate = useNavigate();
 
-  const rows = useSelector((state: RootState) => state.Employee);
-  const isLoading = useSelector((state: RootState) => state.isLoading);
-  const { Pages, TotalEmployee, From, To } = useSelector(
-    (state: RootState) => state.InforPagination
-  );
-
-  const headCells = [
-    {
-      id: "staff_id",
-      label: "NIK",
-    },
-    {
-      id: "name",
-      label: "Name",
-    },
-    {
-      id: "gender",
-      label: "Gender",
-      type: "number",
-      render: (value: any) => (value === 0 ? "Male" : "Female"),
-    },
-    {
-      id: "card_number",
-      label: "Bank Card No.",
-    },
-    {
-      id: "bank_account_no",
-      label: "Bank Account No.",
-    },
-    {
-      id: "family_card_number",
-      label: "Family Card No.",
-    },
-    {
-      id: "marriage_code",
-      label: "Marriage Status",
-    },
-    {
-      id: "mother_name",
-      label: "Mother Name",
-    },
-    {
-      id: "pob",
-      label: "Place of birth",
-    },
-    {
-      id: "dob",
-      label: "Date of birth",
-    },
-    {
-      id: "home_address_1",
-      label: "Home Address",
-    },
-    {
-      id: "home_address_2",
-      label: "Home Address",
-    },
-    {
-      id: "nc_id",
-      label: "National Card ID No.",
-    },
-    {
-      id: "contract_start_date",
-      label: "Date Start",
-    },
-    {
-      id: "contracts[0].contract_date",
-      label: "First",
-    },
-    {
-      id: "contracts[1].contract_date",
-      label: "Second",
-    },
-    {
-      id: "contracts[2].contract_date",
-      label: "End",
-    },
-    {
-      id: "department_name",
-      label: "Department",
-    },
-    {
-      id: "type",
-      label: "Employee Type",
-      type: "number",
-      render: (value: any) => (value === 0 ? "Permanent" : "Part-time"),
-      // {
-      //   switch (value) {
-      //     case 0:
-      //       return "Permanent";
-      //     case 1:
-      //       return "Part-time";
-      //     case 2:
-      //       return "Contract";
-      //     default:
-      //       return "";
-      //   }
-      // },
-    },
-    {
-      id: "basic_salary",
-      label: "Salary Rp.",
-    },
-    {
-      id: "position_name",
-      label: "Position",
-    },
-    {
-      id: "entitle_ot",
-      label: "O/T Paid",
-      type: "number",
-      render: (value: any) => (value === 0 ? "" : "Yes"),
-    },
-    {
-      id: "meal_allowance_paid",
-      label: "Meal paid",
-      type: "number",
-      render: (value: any) => (value === 0 ? "" : "Yes"),
-    },
-    {
-      id: "meal_allowance",
-      label: "Meal Rp.",
-    },
-    {
-      id: "grade_name",
-      label: "Grading",
-    },
-  ];
-
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
-
-  const handleDoubleClick = (e: number) => {
-    setRowsID(e);
-    navigate(`/employee/create-or-update/${e}`);
-  };
-
-  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e?.target?.value);
-  };
-
-  const debounceOnChange = debounce(onChangeSearch, 300);
-
-  // function getEmployeeType(type: number) {
-  //   switch (type) {
-  //     case 0:
-  //       return "Permanent";
-  //     case 1:
-  //       return "Part-time";
-  //     case 2:
-  //       return "Contract";
-  //     default:
-  //       return "";
-  //   }
-  // }
-
-  function EnhancedTableHead(props: EnhancedTableProps) {
-    const { onSelectAllClick, numSelected, rowCount } = props;
-
-    return (
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              color="primary"
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-              inputProps={{
-                "aria-label": "select all desserts",
-              }}
-            />
-          </TableCell>
-          {headCells
-            .filter((headCell) => headCell.id !== "home_address_2")
-            .map((headCell) => (
-              <TableCell
-                sx={{ fontWeight: "bold" }}
-                align="center"
-                key={headCell.id}
-                colSpan={headCell.id === "home_address_1" ? 2 : 1}
-              >
-                {headCell.label}
-              </TableCell>
-            ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.staff_id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, staff_id: string) => {
-    const selectedIndex = selected.indexOf(staff_id);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, staff_id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  React.useEffect(() => {
-    dispatch(fetchDataEmployee({ page: page, search: search }));
-  }, [dispatch, page, search]);
-
-  // console.log(selected)
+  const dispatch = useAppDispatch();
 
   return (
-    <div style={{ marginTop: 10 }}>
+    <>
+       <div style={{ marginTop: 10 }}>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "flex-end",
+          alignItems: "center",
         }}
       >
         <span style={{ fontSize: 29, fontWeight: "bold" }}>
           Employee Management
         </span>
-        <Input
-          style={{ width: 200 }}
-          size="large"
-          placeholder="Search..."
-          prefix={<SearchOutlined />}
-          onChange={debounceOnChange}
-        />
+        <Button style={{width:141, height:48}} type="primary">Save Change</Button>
       </div>
+
+      {/* <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+    <Tab label="Item One" {...a11yProps(0)} />
+    <Tab label="Item Two" {...a11yProps(1)} />
+    <Tab label="Item Three" {...a11yProps(2)} />
+  </Tabs>
+  <TabPanel value={value} index={0}>
+        Item One
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Item Three
+      </TabPanel> */}
       <div
         style={{
           padding: 10,
@@ -310,19 +52,13 @@ const EmployeeManagement: React.FC = () => {
           borderRadius: 12,
         }}
       >
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <ButtonAddStyled
-            className="button-add-styled"
-            sx={{ textTransform: "capitalize", color:"rgb(0, 145, 255)", background:"rgb(237, 246, 255)", boxShadow:"none" }}
-            variant="contained"
-            startIcon={<img src={iconAdd} alt="" />}
-          >
+
+        {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <ButtonAddStyled icon={<img src={iconAdd} alt="" />}>
             Add
           </ButtonAddStyled>
-          <Button
-            sx={{ textTransform: "capitalize" }}
-            variant="contained"
-            startIcon={
+          <ButtonDeleteStyled
+            icon={
               <svg
                 width="20"
                 height="20"
@@ -341,7 +77,7 @@ const EmployeeManagement: React.FC = () => {
             }
           >
             Delete
-          </Button>
+          </ButtonDeleteStyled>
         </div>
 
         <Divider />
@@ -432,9 +168,7 @@ const EmployeeManagement: React.FC = () => {
                       </TableCell>
                       <TableCell align="center">{row.basic_salary}</TableCell>
                       <TableCell align="center">{row.position_name}</TableCell>
-                      <TableCell align="center">
-                        {headCells[21].render?.(row.entitle_ot)}
-                      </TableCell>
+                      <TableCell align="center">{headCells[21].render?.(row.entitle_ot)}</TableCell>
                       <TableCell align="center">
                         {headCells[22].render?.(row.meal_allowance_paid)}
                       </TableCell>
@@ -628,10 +362,11 @@ const EmployeeManagement: React.FC = () => {
               {From} - {To} of {TotalEmployee}
             </Typography>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
+    </>
   );
 };
 
-export default EmployeeManagement;
+export default UpdateEmployee;

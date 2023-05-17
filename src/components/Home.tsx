@@ -4,9 +4,17 @@ import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import BreadCrumb from "./Breadcrumb";
 import HeaderContent from "./Header";
+import { useAppDispatch } from "../redux/store";
+import {fetchInforUser } from "../redux/reducer";
 const { Content, Sider, Footer } = Layout;
 
 const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchInforUser());
+  }, [dispatch]);
+
   return (
     <>
       <Layout>
@@ -17,15 +25,11 @@ const Home: React.FC = () => {
           </Sider>
           <Layout
             style={{
-              margin: "80px 30px",
+              margin: "96px 46px 0",
             }}
           >
             <BreadCrumb />
-            <Content
-              style={{
-                height: "100vh",
-              }}
-            >
+            <Content>
               <Outlet />
             </Content>
             <Footer style={{ textAlign: "center" }}>

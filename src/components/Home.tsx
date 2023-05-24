@@ -5,7 +5,7 @@ import { Layout } from "antd";
 import BreadCrumb from "./Breadcrumb";
 import HeaderContent from "./Header";
 import { useAppDispatch } from "../redux/store";
-import {fetchInforUser } from "../redux/reducer";
+import { fetchInforUser } from "../redux/reducer";
 const { Content, Sider, Footer } = Layout;
 
 const Home: React.FC = () => {
@@ -14,7 +14,7 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     dispatch(fetchInforUser());
   }, [dispatch]);
-
+ 
   return (
     <>
       <Layout>
@@ -26,6 +26,7 @@ const Home: React.FC = () => {
           <Layout
             style={{
               margin: "96px 46px 0",
+              minHeight: "calc(100vh - 96px)"
             }}
           >
             <BreadCrumb />

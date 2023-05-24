@@ -2,3 +2,379 @@
   font-family: "SVN-Sofia Pro";
   src: url("./css/font/SVN-Sofia\ Pro\ Bold/SVN-Sofia\ Pro\ Bold.otf");
 }
+
+.button-add-styled:hover {
+  color: rgb(0, 145, 255) !important;
+  background: rgb(237, 246, 255) !important;
+  box-shadow: none !important;
+}
+
+.button-add-styled {
+  text-transform: capitalize !important;
+  width: 90px !important;
+  height: 36px !important;
+  margin-right: 8px !important;
+  color: rgb(0, 145, 255) !important;
+  background: rgb(237, 246, 255) !important;
+  box-shadow: none !important;
+}
+
+.button-delete-styled {
+  text-transform: capitalize !important;
+  width: 90px !important;
+  height: 36px !important;
+  color: #c1c8cdcc !important;
+  background: #f1f3f5 !important;
+  box-shadow: none !important;
+}
+
+.layout-create-update-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.active {
+  background-color: rgb(255, 239, 239) !important;
+  color: rgb(229, 72, 77) !important;
+}
+
+.css-1aquho2-MuiTabs-indicator {
+  display: none;
+}
+
+.button-save {
+  width: 141px !important;
+  text-transform: capitalize !important;
+  height: 48px !important;
+  background: rgb(0, 145, 255) !important;
+  color: rgb(251, 253, 255) !important;
+  font-size: 15px !important;
+}
+
+.button-tab {
+  color: rgb(0, 145, 255) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  height: 42px !important;
+  background-color: rgb(237, 246, 255) !important;
+  min-width: 180px !important;
+  font-weight: 400 !important;
+  line-height: 1.71429 !important;
+  font-size: 15x !important;
+  margin-right: 5px !important;
+  margin-bottom: 5px !important;
+  text-transform: capitalize !important;
+}
+
+.button-tab.Mui-selected {
+  color: rgb(251, 253, 255) !important;
+  background-color: rgb(0, 145, 255) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  height: 42px !important;
+  font-weight: 400 !important;
+  line-height: 1.71429 !important;
+  text-transform: capitalize !important;
+  min-width: 180px !important;
+}
+
+.css-heg063-MuiTabs-flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box-create-employee.css-19kzrtu {
+  padding: 0 !important;
+}
+
+.content-tabpanel {
+  padding: 10px 10px 15px;
+  margin: 20px 0;
+  background: #fbfcfd;
+  box-shadow: rgb(241, 243, 245) 0px 5px 20px;
+  border-radius: 12px;
+}
+
+.title-tabpanel {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  align-items: center;
+}
+
+.grid-items {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.css-1cu9lhc-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.text-choose-gender {
+  color: rgb(104, 112, 118);
+  line-height: 1.5;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.css-1nyiukw-MuiInputBase-root-MuiOutlinedInput-root {
+  padding: 0 !important;
+}
+
+.contract-information-select {
+  max-width: 400px;
+  margin: 10px 20px;
+}
+
+.select-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.css-q5k-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.contract {
+  margin: 0px;
+  line-height: 1.5;
+  font-size: 12px !important;
+  color: rgb(104, 112, 118) !important;
+  font-weight: 600 !important;
+  background-color: rgb(241, 243, 245);
+  padding: 5px 20px;
+  border-radius: 6px;
+}
+
+.contract-extra {
+  margin: 0px;
+  line-height: 1.35714;
+  font-size: 14px !important;
+  font-weight: 400;
+  color: rgb(104, 112, 118);
+  padding: 10px 20px;
+}
+
+.button-contract {
+  margin-top: 15px;
+  text-transform: capitalize !important;
+}
+
+.button-upload-file {
+  border: 1px dashed rgb(0, 145, 255) !important;
+  background-color: rgb(237, 246, 255) !important;
+  text-transform: capitalize !important;
+  color: rgb(0, 145, 255) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  width: 195px !important;
+  height: 48px !important;
+  margin-right: 20px !important;
+}
+
+.button-add-file {
+  border: none !important;
+  background-color: #69d9c1 !important;
+  text-transform: capitalize !important;
+  color: #eafbf6 !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  width: 195px !important;
+  height: 48px !important;
+  margin-right: 20px !important;
+}
+
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: rgb(48, 164, 108) !important;
+}
+
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-disabled {
+  color: rgba(193, 200, 205, 0.8) !important;
+}
+.items-css {
+  width: 560px;
+  padding: 5px 15px 0;
+}
+
+.icon_Rp {
+  margin: 0px;
+  line-height: 1.5;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  color: rgb(0, 106, 220);
+}
+
+.box-others {
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  margin-top: 15px !important;
+  padding: 5px 15px 15px !important;
+  min-height: 300px;
+}
+
+.css-1ndpvdd-MuiTableCell-root {
+  line-height: 2rem !important;
+  padding: 0 !important;
+  background-color: rgb(236, 238, 240) !important;
+  color: rgb(17, 24, 28) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  border: 2px solid white;
+}
+
+.table-cell-first {
+  width: 50px !important;
+  border-top-left-radius: 8px;
+}
+
+.table-cell-last {
+  border-top-right-radius: 8px;
+}
+
+.date-picker {
+  width: 265px;
+  height: 50px;
+  border: none;
+  outline-width: 0px !important;
+  border-radius: 4px;
+  background-color: rgb(241, 243, 245);
+  padding: 16.5px 14px 16.5px 50px;
+  margin-top: 8px;
+  font-size: 16px !important;
+}
+
+.react-datepicker__close-icon {
+  top: 4px !important;
+  right: 25px !important;
+}
+
+.react-datepicker__close-icon::after {
+  color: rgb(104, 112, 118) !important;
+  font-size: 24px !important;
+  background-color: rgb(241, 243, 245) !important;
+}
+
+.ArrowDropDownIcon {
+  position: absolute;
+  top: 21px;
+  right: 5px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.iconCalendar {
+  width: 25px;
+  position: absolute;
+  top: 20px;
+  left: 15px;
+}
+
+.react-datepicker {
+  border: 1px solid #dfe3e6;
+}
+
+.react-datepicker__header {
+  text-align: center !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  border-top-left-radius: 0.3rem !important;
+  padding: 16px 0 !important;
+  position: relative !important;
+}
+
+.react-datepicker__navigation {
+  margin-top: 16px !important;
+}
+
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+.react-datepicker__navigation {
+  height: 26px !important;
+  width: 26px !important;
+}
+
+.react-datepicker__month {
+  margin: 0.25rem !important;
+  text-align: center !important;
+  width: 308px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+}
+
+.react-datepicker__week {
+  width: 100% !important;
+}
+
+.react-datepicker__day-names {
+  margin-top: 4px !important;
+  margin-bottom: -10px !important;
+}
+
+.react-datepicker__day-names .react-datepicker__day-name {
+  color: rgb(48, 164, 108) !important;
+  background-color: rgb(233, 249, 238) !important ;
+  border-radius: 6px !important;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: #000 !important;
+  display: inline-block !important;
+  text-align: center !important;
+  margin: 0.2rem !important;
+  font-size: 0.8rem !important;
+  border-radius: 50% !important;
+  width: 2.5rem !important;
+  line-height: 2.5rem !important;
+  font-family: "SVN-Sofia Pro Regular", "Public Sans", sans-serif;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__month-text:hover,
+.react-datepicker__quarter-text:hover,
+.react-datepicker__year-text:hover {
+  border-radius: 50% !important;
+  background-color: #f0f0f0 !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  margin-top: 0 !important;
+  color: #000 !important;
+  font-weight: 500 !important;
+  font-size: 1.3rem !important;
+  font-family: "SVN-Sofia Pro Regular", "Public Sans", sans-serif;
+}
+
+.react-datepicker__day--outside-month {
+  color: #c1c8cd !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #0091ff !important;
+  color: white !important;
+}
+
+.date-contact {
+  width: 220px !important;
+}

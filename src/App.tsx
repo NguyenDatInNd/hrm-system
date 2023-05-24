@@ -52,6 +52,7 @@ const App: React.FC = () => {
           <Route path="/master/position" element={<Position />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/employee/create-or-update/:index" element={<UpdateEmployee />} />
+          <Route path="/employee/create-or-update" element={<UpdateEmployee />} />
 
         </Route>
         {/* <Route path="*" element={<Login />}/> */}

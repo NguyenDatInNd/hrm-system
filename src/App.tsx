@@ -17,6 +17,7 @@ import { ForgotPassword } from "./components/ForgotPw";
 import { ChangePassword } from "./components/ChangePw";
 import Settings from "./components/content/Settings";
 import UpdateEmployee from "./components/content/UpdateEmployee";
+import CreateEmployee from "./components/content/CreateEmployee";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -51,8 +52,8 @@ const App: React.FC = () => {
           <Route path="/master/department" element={<Department />} />
           <Route path="/master/position" element={<Position />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/employee/create-or-update/:index" element={<UpdateEmployee />} />
-          <Route path="/employee/create-or-update" element={<UpdateEmployee />} />
+          <Route path="/employee/create-or-update/:index" element={<CreateEmployee />} />
+          <Route path="/employee/create-or-update" element={<CreateEmployee />} />
 
         </Route>
         {/* <Route path="*" element={<Login />}/> */}

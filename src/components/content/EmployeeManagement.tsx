@@ -270,6 +270,7 @@ const EmployeeManagement: React.FC = () => {
           Employee Management
         </span>
         <Input
+          className="search-input"
           style={{ width: 200 }}
           size="large"
           placeholder="Search..."
@@ -585,7 +586,7 @@ const EmployeeManagement: React.FC = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
           }}
         >
           <Pagination
@@ -597,7 +598,7 @@ const EmployeeManagement: React.FC = () => {
             showLastButton
           />
           {TotalEmployee && (
-            <Typography>
+            <Typography className="page-numbers">
               {From} - {To} of {TotalEmployee}
             </Typography>
           )}

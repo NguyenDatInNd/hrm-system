@@ -8,6 +8,42 @@ import { useAppDispatch } from "../redux/store";
 import { fetchInforUser } from "../redux/reducer";
 const { Content, Sider, Footer } = Layout;
 
+export const autocompleteStyles = {
+  maxHeight: "300px",
+  backgroundColor: "rgb(241, 243, 245)",
+  borderRadius: "6px",
+  fontSize: "0.8125rem",
+  marginBottom: "4px",
+  "& .MuiAutocomplete-inputRoot": {
+    padding: "8px 12px 6px 12px",
+    "& input": {
+      fontSize: "16px",
+      lineHeight: "16px",
+    },
+  },
+  "& .MuiAutocomplete-listbox": {
+    backgroundColor: "red",
+    "& .MuiAutocomplete-option": {
+      backgroundColor: "red",
+    },
+  },
+  "& .MuiAutocomplete-tag": {
+    color: "rgb(0, 145, 255)",
+    backgroundColor: "#fff",
+    borderRadius: "6px",
+    fontSize: "16px",
+    lineHeight: "14px",
+    margin: "2px",
+    padding: "4px",
+  },
+  ".MuiOutlinedInput-notchedOutline": {
+    border: "none",
+  },
+  "& .MuiFormControl-root-MuiTextField-root": {
+    marginTop: "0",
+  },
+};
+
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
 

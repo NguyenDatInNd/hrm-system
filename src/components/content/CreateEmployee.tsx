@@ -1,21 +1,16 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { ChangeEvent } from "react";
 import { RootState, useAppDispatch } from "../../redux/store";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import DatePicker from "react-datepicker";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
+import FormControl from "@mui/material/FormControl";
 import IconWarning from "../../css/img/icon_warning.svg";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import IconUploadFile from "../../css/img/icon_upload_file.svg";
-import FormHelperText from "@mui/material/FormHelperText";
 import IconNotChecked from "../../css/img/icon_not_checked.svg";
+import ClearIcon from "@mui/icons-material/Clear";
 import IconCheckedDisable from "../../css/img/icon_checked_disable.svg";
-import iconCalendar from "../../css/img/icon_calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
 import {
   Box,
+  Select,
   Divider,
   Button,
   Tab,
@@ -23,8 +18,6 @@ import {
   Typography,
   Grid,
   MenuItem,
-  InputAdornment,
-  IconButton,
   FormGroup,
   FormControlLabel,
   Checkbox,
@@ -33,311 +26,22 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Autocomplete,
+  TextField,
+  Chip,
+  Stack,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import moment from "moment";
-
-interface InputProps {
-  showIconRequired?: boolean;
-  errorValidate?: boolean;
-  helperText?: string;
-  name: string;
-  title: string;
-  value: any;
-  onInputChangeValue: Function;
-  handleValidate?: Function;
-  errorTextState?: boolean;
-  handleValidateText?: Function;
-}
-
-function InputLayout({
-  showIconRequired,
-  errorValidate,
-  helperText,
-  title,
-  name,
-  value,
-  onInputChangeValue,
-  handleValidate,
-  errorTextState,
-  handleValidateText,
-}: InputProps) {
-  const [error, setError] = React.useState(errorValidate);
-  const [errorText, setErrorText] = React.useState(errorTextState);
-  const handleInputChangeValue = (name: string, value: string) => {
-    onInputChangeValue(name, value);
-  };
-
-  React.useEffect(() => {
-    handleValidate && handleValidate(name, error);
-    handleValidateText && handleValidateText(name, errorText);
-  }, [error, errorText]);
-
-  return (
-    <Grid className="grid-items" item xs={6}>
-      <Typography>
-        {title}
-        {showIconRequired && <IconRequired />}
-      </Typography>
-      <FormControl sx={{ width: "30ch" }}>
-        <OutlinedInput
-          name={name}
-          sx={{
-            marginTop: "8px !important",
-            height: 47,
-            border: error ? "1px solid rgb(243, 174, 175)" : "inherit",
-            backgroundColor: error
-              ? "rgb(255, 239, 239)"
-              : "rgb(241, 243, 245)",
-          }}
-          value={value}
-          onChange={(e) =>
-            handleInputChangeValue(e.target.name, e.target.value)
-          }
-        />
-        {helperText && (
-          <MyFormHelperText
-            message={helperText}
-            error={error}
-            setError={setError}
-            errorText={errorText}
-            setErrorText={setErrorText}
-          />
-        )}
-      </FormControl>
-    </Grid>
-  );
-}
-
-interface SelectProps {
-  showIconRequired?: boolean;
-  errorValidate?: boolean;
-  errorTextState?: boolean;
-  helperText?: string;
-  name: string;
-  title: string;
-  value: any;
-  listOptions: any;
-  onInputChangeValue: Function;
-  handleValidate?: Function;
-  handleValidateText?: Function;
-  defaultRender: string;
-}
-
-function SelectLayout({
-  showIconRequired,
-  errorValidate,
-  helperText,
-  title,
-  name,
-  value,
-  onInputChangeValue,
-  listOptions,
-  handleValidate,
-  errorTextState,
-  handleValidateText,
-  defaultRender,
-}: SelectProps) {
-  const [error, setError] = React.useState(errorValidate);
-  const [errorText, setErrorText] = React.useState(errorTextState);
-  const handleInputChangeValue = (name: string, value: string) => {
-    onInputChangeValue(name, value);
-  };
-
-  React.useEffect(() => {
-    handleValidate && handleValidate(name, error);
-    handleValidateText && handleValidateText(name, errorText);
-  }, [error, errorText]);
-
-  return (
-    <>
-      <Typography>
-        {title}
-        {showIconRequired && <IconRequired />}
-      </Typography>
-      <FormControl
-        sx={{
-          width:
-            name === "type"
-              ? "25ch"
-              : name === "gender" || name === "marriage_id"
-              ? "30ch"
-              : "35ch",
-        }}
-      >
-        <Select
-          name={name}
-          sx={{
-            marginTop: "8px !important",
-            height: 47,
-            border: error ? "1px solid rgb(243, 174, 175)" : "inherit",
-            backgroundColor: error
-              ? "rgb(255, 239, 239)"
-              : "rgb(241, 243, 245)",
-          }}
-          value={value}
-          displayEmpty
-          onChange={(e) =>
-            handleInputChangeValue(e.target.name, e.target.value)
-          }
-          renderValue={(selected) => {
-            const selectedOption = listOptions.find(
-              (option: any) => option.value === selected && option.value !== ""
-            );
-
-            return selectedOption ? (
-              <span>{selectedOption.label}</span>
-            ) : (
-              <span className="text-choose-gender">{defaultRender}</span>
-            );
-          }}
-        >
-          {listOptions.map((option: any) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-        {helperText && (
-          <MyFormHelperText
-            message={helperText}
-            error={error}
-            setError={setError}
-            errorText={errorText}
-            setErrorText={setErrorText}
-          />
-        )}
-      </FormControl>
-    </>
-  );
-}
-
-interface InputNumberProps {
-  showIconRequired?: boolean;
-  errorValidate?: boolean;
-  errorTextState?: boolean;
-  name: string;
-  helperText?: string;
-  title: string;
-  value: any;
-  onInputChangeValue: Function;
-  handleValidateText?: Function;
-  handleValidate?: Function;
-}
-
-function InputNumberLayout({
-  showIconRequired,
-  helperText,
-  title,
-  errorValidate,
-  name,
-  value,
-  onInputChangeValue,
-  handleValidate,
-  errorTextState,
-  handleValidateText,
-}: InputNumberProps) {
-  const [error, setError] = React.useState(errorValidate);
-  const [errorText, setErrorText] = React.useState(errorTextState);
-  const handleInputChangeValue = (name: string, value: string) => {
-    onInputChangeValue(name, value);
-  };
-
-  React.useEffect(() => {
-    handleValidate && handleValidate(name, error);
-    handleValidateText && handleValidateText(name, errorText);
-  }, [error, errorText]);
-
-  return (
-    <>
-      <Typography>
-        {title}
-        {showIconRequired && <IconRequired />}
-      </Typography>
-      <FormControl sx={{ width: "35ch" }}>
-        <OutlinedInput
-          name={name}
-          sx={{
-            marginTop: "8px !important",
-            height: 47,
-            border: error ? "1px solid rgb(243, 174, 175)" : "inherit",
-            backgroundColor: error
-              ? "rgb(255, 239, 239)"
-              : "rgb(241, 243, 245)",
-          }}
-          onChange={(e) =>
-            handleInputChangeValue(e.target.name, e.target.value)
-          }
-          type="number"
-          defaultValue={value}
-          startAdornment={
-            <InputAdornment position="start">
-              <IconButton sx={{ paddingRight: "0 !important" }} disabled>
-                <Typography className="icon_Rp">Rp</Typography>
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        {helperText && (
-          <MyFormHelperText
-            message={helperText}
-            error={error}
-            setError={setError}
-            value={value}
-            errorText={errorText}
-            setErrorText={setErrorText}
-          />
-        )}
-      </FormControl>
-    </>
-  );
-}
-
-function MyFormHelperText({
-  message,
-  error,
-  setError,
-  value,
-  errorText,
-  setErrorText,
-}: {
-  message?: string;
-  error?: boolean;
-  setError?: Function;
-  value?: any;
-  errorText?: boolean;
-  setErrorText?: Function;
-}) {
-  const [isFocused, setFocused] = React.useState(false);
-  const { focused, filled } = useFormControl() || {};
-
-  React.useEffect(() => {
-    if (!filled || value < 0) {
-      setErrorText && setErrorText(true);
-    } else {
-      setErrorText && setErrorText(false);
-    }
-    if (focused) {
-      setFocused(true);
-    }
-
-    if ((errorText && isFocused) || value < 0) {
-      setError && setError(true);
-    } else if (filled) {
-      setError && setError(false);
-    }
-  }, [filled, focused, errorText, value]);
-
-  return (
-    <FormHelperText error>
-      {error && (value < 0 ? "Please input value min is 0" : message)}
-    </FormHelperText>
-  );
-}
-
-const IconRequired = () => {
-  return <span style={{ color: "red" }}>*</span>;
-};
+import { autocompleteStyles } from "../Home";
+import { fetchCreateEmployee, fetchInforEmployee } from "../../redux/reducer";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  DateSelect,
+  IconRequired,
+  InputLayout,
+  InputNumberLayout,
+  SelectLayout,
+} from "../Component_Input";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -372,13 +76,54 @@ function a11yProps(index: number) {
   };
 }
 
-const UpdateEmployee: React.FC = () => {
-  const [valueTab, setValueTab] = React.useState(0);
-  const [errorTab, setErrorTab] = React.useState<boolean>(false);
-  const [startDate, setStartDate] = React.useState<Date | null>(null);
-  const [dateOfBirth, setDateOfBirth] = React.useState<Date | null>(null);
-  const [contractDate, setContractDate] = React.useState<Date | null>(null);
+const genderOptions = [
+  { value: 0, label: "Male" },
+  { value: 1, label: "Female" },
+];
 
+const marriageStatusOptions = [
+  { value: "", label: "N/A" },
+  { value: 0, label: "Married with 1 kid" },
+  { value: 1, label: "Single" },
+  { value: 3, label: "Married" },
+];
+
+const employeeTypeOptions = [
+  { value: 0, label: "Permanent" },
+  { value: 1, label: "Part-time" },
+  { value: 2, label: "Contract" },
+];
+
+const positionOptions = [
+  { value: "", label: "N/A" },
+  { value: 0, label: "Junior" },
+  { value: 1, label: "Vice Manager" },
+  { value: 2, label: "Manager" },
+];
+
+const departmentOptions = [
+  { value: "", label: "N/A" },
+  { value: 0, label: "Developer" },
+  { value: 1, label: "Quality Controjk" },
+  { value: 2, label: "Maintenance" },
+  { value: 3, label: "Business Development" },
+];
+
+const CreateEmployee: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { index } = useParams();
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = React.useState<File[] | null>([]);
+  const [valueTab, setValueTab] = React.useState(0);
+  const [dobErr, setDobErr] = React.useState(false);
+  const [startDateErr, setStartDateErr] = React.useState(true);
+  const [dateOfBirth, setDateOfBirth] = React.useState<Date | null>(null);
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [contractDate, setContractDate] = React.useState<Date | null>(null);
+  const [benefitOptions, setBenefitOptions] = React.useState<Array<any>>([]);
+  const [grandeOptions, setGrandeOptions] = React.useState<Array<any>>([]);
+  const [arrayBenefits, setArrayBenefits] = React.useState<any[]>([]);
   const [stateEmployment, setStateEmployment] = React.useState({
     entitledOT: false,
     mealAllowancePaid: false,
@@ -389,60 +134,51 @@ const UpdateEmployee: React.FC = () => {
   const handleChangeCheckBoxEmployment = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (event.target.name === "entitledOT") {
+    const { name, checked } = event.target;
+    if (name === "entitledOT") {
       setStateEmployment({
         ...stateEmployment,
-        operationalAllowancePaidine: !event.target.checked,
-        attendanceAllowancePaid: !event.target.checked,
-        [event.target.name]: event.target.checked,
+        operationalAllowancePaidine: !checked,
+        attendanceAllowancePaid: !checked,
+        [name]: checked,
       });
-      if (event.target.checked === true) {
-        setInputValue({
-          ...inputValue,
-          entitle_ot: "1",
-          operational_allowance_paid: "0",
-          attendance_allowance_paid: "0",
-        });
-      } else
-        setInputValue({
-          ...inputValue,
-          entitle_ot: "0",
-          operational_allowance_paid: "1",
-          attendance_allowance_paid: "1",
-        });
+      setInputValue({
+        ...inputValue,
+        entitle_ot: Number(checked),
+        operational_allowance_paid: Number(!checked),
+        attendance_allowance_paid: Number(!checked),
+      });
     } else {
       setStateEmployment({
         ...stateEmployment,
-        [event.target.name]: event.target.checked,
+        [name]: checked,
       });
-      if (event.target.checked === true) {
-        setInputValue({
-          ...inputValue,
-          meal_allowance_paid: "1",
-        });
-      } else
-        setInputValue({
-          ...inputValue,
-          meal_allowance_paid: "0",
-        });
+      setInputValue({
+        ...inputValue,
+        meal_allowance_paid: Number(checked),
+      });
     }
-  };
-
-  const { index } = useParams();
-  const navigate = useNavigate();
-
-  const inputStyle = {
-    marginTop: "8px !important",
-    height: 47,
-    border: errorTab ? "1px solid rgb(243, 174, 175)" : "inherit",
-    backgroundColor: errorTab ? "rgb(255, 239, 239)" : "rgb(241, 243, 245)",
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
     setValueTab(newValue);
   };
 
-  const dispatch = useAppDispatch();
+  const handleFileChangeContract = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files && event.target.files[0];
+    setSelectedFile(selectedFile || null);
+  };
+
+  const handleDeleteFile = () => {
+    setSelectedFile(null);
+  };
+
+  const handleAddFileContract = () => {
+    if (selectedFile) {
+      setSelectedFiles([...(selectedFiles || []), selectedFile]);
+    }
+    setSelectedFile(null);
+  };
 
   const [inputValue, setInputValue] = React.useState({
     name: "",
@@ -455,7 +191,6 @@ const UpdateEmployee: React.FC = () => {
     bank_account_no: "",
     family_card_number: "",
     safety_insurance_no: "",
-    marriage_code: "",
     marriage_id: "",
     mother_name: "",
     pob: "",
@@ -467,19 +202,21 @@ const UpdateEmployee: React.FC = () => {
     health_insurance_no: "",
     department_id: "",
     type: "",
-    basic_salary: "",
+    contract_dates: "",
+    contract_name: "",
     position_name: "",
-    entitle_ot: "0",
-    meal_allowance_paid: "0",
-    operational_allowance_paid: "1",
-    attendance_allowance_paid: "1",
-    grade_id: "",
+    entitle_ot: 0,
+    meal_allowance_paid: 0,
+    operational_allowance_paid: 1,
+    attendance_allowance_paid: 1,
+    grade_id: -1,
     remark: "",
-    benefits: "",
-    audit_salary: "",
-    safety_insurance: "",
-    health_insurance: "",
-    meal_allowance: "",
+    benefits: [],
+    basic_salary: "0",
+    audit_salary: "0",
+    safety_insurance: "0",
+    health_insurance: "0",
+    meal_allowance: "0",
   });
 
   const [stateErr, setStateErr] = React.useState({
@@ -497,26 +234,61 @@ const UpdateEmployee: React.FC = () => {
   });
 
   const [stateErrText, setStateErrText] = React.useState({
-    name: false,
-    gender: false,
-    dob: false,
-    ktp_no: false,
-    nc_id: false,
-    contract_start_date: false,
-    type: false,
+    name: true,
+    gender: true,
+    ktp_no: true,
+    nc_id: true,
+    type: true,
     basic_salary: false,
     audit_salary: false,
     safety_insurance: false,
     meal_allowance: false,
   });
 
+  React.useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(
+        "https://api-training.hrm.div4.pgtest.co/api/v1/grade",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setGrandeOptions(data.data);
+    }
+    fetchData();
+  }, []);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(
+        "https://api-training.hrm.div4.pgtest.co/api/v1/benefit",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setBenefitOptions(data.data);
+    }
+    fetchData();
+  }, [dispatch]);
+
+  const dataEmployeeId = useSelector((state: RootState) => state.InforEmployee);
+
   const informationErr =
     stateErrText.name ||
     stateErrText.gender ||
     stateErrText.ktp_no ||
-    stateErrText.nc_id;
+    stateErrText.nc_id ||
+    !dobErr;
 
-  const contactErr = stateErrText.type;
+  const contactErr = stateErrText.type || !startDateErr;
   const SalaryErr =
     stateErrText.audit_salary ||
     stateErrText.basic_salary ||
@@ -539,33 +311,6 @@ const UpdateEmployee: React.FC = () => {
     });
   };
 
-  const handleSelectDateOfBirth = (date: Date | null) => {
-    setDateOfBirth(date);
-    const dateString = moment(date).format("YYYY/MM/DD");
-    setInputValue({
-      ...inputValue,
-      dob: dateString,
-    });
-  };
-
-  const handleSelectStartDate = (date: Date | null) => {
-    setStartDate(date);
-    const dateString = moment(date).format("YYYY/MM/DD");
-    setInputValue({
-      ...inputValue,
-      contract_start_date: dateString,
-    });
-  };
-
-  const handleSelectContractDate = (date: Date | null) => {
-    setContractDate(date);
-    const dateString = moment(date).format("YYYY/MM/DD");
-    setInputValue({
-      ...inputValue,
-      dob: dateString,
-    });
-  };
-
   const handleInputChange = (name: string, value: any) => {
     setInputValue({
       ...inputValue,
@@ -573,39 +318,60 @@ const UpdateEmployee: React.FC = () => {
     });
   };
 
-  const genderOptions = [
-    { value: "0", label: "Male" },
-    { value: "1", label: "Female" },
-  ];
+  const handleDeleteOption = (option: any) => {
+    const updatedOptions = inputValue.benefits.filter(
+      (item) => item !== option
+    );
+    setInputValue({
+      ...inputValue,
+      benefits: updatedOptions,
+    });
+  };
 
-  const marriageStatusOptions = [
-    { value: "", label: "N/A" },
-    { value: "0", label: "Married with 1 kid" },
-    { value: "1", label: "Single" },
-    { value: "2", label: "Married" },
-  ];
+  //hàm chuyển đổi object có value là number thành string
+  function convertNumbersToStrings(
+    obj: Record<string, any>
+  ): Record<string, any> {
+    const convertedObj: Record<string, any> = {};
 
-  const employeeTypeOptions = [
-    { value: "0", label: "Permanent" },
-    { value: "1", label: "Part-time" },
-    { value: "2", label: "Contract" },
-  ];
+    for (const key in obj) {
+      if (Object.hasOwnProperty.call(obj, key)) {
+        let value = obj[key];
 
-  const positionOptions = [
-    { value: "", label: "N/A" },
-    { value: "0", label: "Junior" },
-    { value: "1", label: "Vice Manager" },
-    { value: "2", label: "Manager" },
-  ];
+        if (key === "grade_id" && value === -1) {
+          value = "";
+        } else if (typeof value === "number") {
+          value = String(value);
+        }
 
-  const departmentOptions = [
-    { value: "", label: "N/A" },
-    { value: "0", label: "Developer" },
-    { value: "1", label: "Quality Controjk" },
-    { value: "2", label: "Maintenance" },
-    { value: "3", label: "Business Development" },
-  ];
+        convertedObj[key] = value;
+      }
+    }
 
+    return convertedObj;
+  }
+
+  const handleOptionChange = (event: any, newValue: any) => {
+    setArrayBenefits(newValue);
+    const updatedBenefits = newValue.map((benefit: any) => benefit.id);
+    setInputValue({
+      ...inputValue,
+      benefits: updatedBenefits,
+    });
+  };
+
+  const handleOnSubmit = () => {
+    const convertedData: Record<string, any> =
+      convertNumbersToStrings(inputValue);
+    dispatch(fetchCreateEmployee(convertedData));
+    navigate("/employee");
+  };
+
+  React.useEffect(() => {
+    if (index) {
+      dispatch(fetchInforEmployee(index));
+    }
+  }, []);
   return (
     <Box sx={{ marginTop: "10px" }}>
       <Box className="layout-create-update-data">
@@ -615,8 +381,9 @@ const UpdateEmployee: React.FC = () => {
         <Button
           disabled={buttonSubmit}
           className={buttonSubmit ? "button-save-disable" : "button-save"}
+          onClick={handleOnSubmit}
         >
-          Save Change
+          {index ? "Save change" : "Add"}
         </Button>
       </Box>
       <Tabs
@@ -666,6 +433,21 @@ const UpdateEmployee: React.FC = () => {
 
           <Divider />
           <Grid sx={{ padding: "10px 20px" }} container spacing={1}>
+            {index && (
+              <Grid container item spacing={10}>
+                <Grid className="grid-items" item xs={6}>
+                  <Typography>NIK</Typography>
+                  <FormControl sx={{ width: "30ch" }}>
+                    <OutlinedInput
+                      disabled
+                      className="input-value-style"
+                      value={dataEmployeeId.staff_id}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            )}
+
             <Grid container item spacing={10}>
               <InputLayout
                 errorTextState={stateErrText.name}
@@ -676,13 +458,18 @@ const UpdateEmployee: React.FC = () => {
                 title="Name"
                 showIconRequired
                 helperText="Please input Name"
-                value={inputValue.name}
+                value={index ? dataEmployeeId.name : inputValue.name}
                 onInputChangeValue={handleInputChange}
               />
               <InputLayout
+                numberic
                 name="mobile_number"
                 title="Mobile No."
-                value={inputValue.mobile_number}
+                value={
+                  index
+                    ? dataEmployeeId?.mobile_number
+                    : inputValue.mobile_number
+                }
                 onInputChangeValue={handleInputChange}
               />
             </Grid>
@@ -699,12 +486,13 @@ const UpdateEmployee: React.FC = () => {
                   title="Gender"
                   showIconRequired
                   helperText="Please input Gender"
-                  value={inputValue.gender}
+                  value={index ? dataEmployeeId?.gender : inputValue.gender}
                   onInputChangeValue={handleInputChange}
                   listOptions={genderOptions}
                 />
               </Grid>
               <InputLayout
+                numberic
                 name="tel_number"
                 title="Tel No."
                 value={inputValue.tel_number}
@@ -737,22 +525,17 @@ const UpdateEmployee: React.FC = () => {
                   Date of birth
                   <IconRequired />
                 </Typography>
-                <FormControl sx={{ width: "30ch" }}>
-                  <DatePicker
-                    selected={dateOfBirth}
-                    onChange={(date) => handleSelectDateOfBirth(date)}
-                    showYearDropdown
-                    isClearable
-                    dateFormat="yyyy/MM/dd"
-                    scrollableYearDropdown
-                    className="date-picker"
-                  />
-                  <img className="iconCalendar" src={iconCalendar} alt="" />
-
-                  <ArrowDropDownIcon className="ArrowDropDownIcon" />
-                </FormControl>
+                <DateSelect
+                  isErr={dobErr}
+                  setIsErr={setDobErr}
+                  startDate={dateOfBirth}
+                  setStartDate={setDateOfBirth}
+                  handleSelectDatePicker={handleInputChange}
+                  name="dob"
+                />
               </Grid>
               <InputLayout
+                numberic
                 name="card_number"
                 title="Bank Card No."
                 value={inputValue.card_number}
@@ -768,6 +551,7 @@ const UpdateEmployee: React.FC = () => {
                 onInputChangeValue={handleInputChange}
               />
               <InputLayout
+                numberic
                 name="bank_account_no"
                 title="Bank Account No."
                 value={inputValue.bank_account_no}
@@ -777,6 +561,7 @@ const UpdateEmployee: React.FC = () => {
 
             <Grid container item spacing={10}>
               <InputLayout
+                numberic
                 name="ktp_no"
                 title="KTP No."
                 showIconRequired
@@ -798,6 +583,7 @@ const UpdateEmployee: React.FC = () => {
 
             <Grid container item spacing={10}>
               <InputLayout
+                numberic
                 title="National Card ID"
                 name="nc_id"
                 value={inputValue.nc_id}
@@ -810,6 +596,7 @@ const UpdateEmployee: React.FC = () => {
                 handleValidateText={handleValidateText}
               />
               <InputLayout
+                numberic
                 title="Family Card Number"
                 name="family_card_number"
                 value={inputValue.family_card_number}
@@ -826,6 +613,7 @@ const UpdateEmployee: React.FC = () => {
               />
 
               <InputLayout
+                numberic
                 title="Safety Insurance No."
                 name="safety_insurance_no"
                 value={inputValue.safety_insurance_no}
@@ -841,6 +629,7 @@ const UpdateEmployee: React.FC = () => {
                 onInputChangeValue={handleInputChange}
               />
               <InputLayout
+                numberic
                 title="Health Insurance No."
                 name="health_insurance_no"
                 value={inputValue.health_insurance_no}
@@ -869,20 +658,14 @@ const UpdateEmployee: React.FC = () => {
                 Date Start
                 <IconRequired />
               </Typography>
-              <FormControl sx={{ width: "25ch" }}>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => handleSelectStartDate(date)}
-                  showYearDropdown
-                  isClearable
-                  dateFormat="yyyy/MM/dd"
-                  scrollableYearDropdown
-                  className="date-picker date-contact"
-                />
-                <img className="iconCalendar" src={iconCalendar} alt="" />
-
-                <ArrowDropDownIcon className="ArrowDropDownIcon" />
-              </FormControl>
+              <DateSelect
+                isErr={startDateErr}
+                setIsErr={setStartDateErr}
+                startDate={startDate}
+                setStartDate={setStartDate}
+                handleSelectDatePicker={handleInputChange}
+                name="contract_start_date"
+              />
             </Box>
 
             <Box className="select-form">
@@ -913,44 +696,56 @@ const UpdateEmployee: React.FC = () => {
               <Box className="contract-information-select">
                 <Box className="select-form">
                   <Typography>Contract Date</Typography>
-                  <FormControl sx={{ width: "25ch" }}>
-                    <DatePicker
-                      selected={contractDate}
-                      onChange={(date) => setStartDate(date)}
-                      showYearDropdown
-                      isClearable
-                      dateFormat="yyyy/MM/dd"
-                      scrollableYearDropdown
-                      className="date-picker date-contact"
-                    />
-                    <img className="iconCalendar" src={iconCalendar} alt="" />
-
-                    <ArrowDropDownIcon className="ArrowDropDownIcon" />
-                  </FormControl>
+                  <DateSelect
+                    startDate={contractDate}
+                    setStartDate={setContractDate}
+                    handleSelectDatePicker={handleInputChange}
+                    name="contract_dates"
+                  />
                 </Box>
 
                 <Box className="select-form">
                   <Typography>Contract Name</Typography>
                   <FormControl sx={{ width: "25ch" }}>
-                    <OutlinedInput sx={inputStyle} />
+                    <OutlinedInput className="input-value-style" />
                   </FormControl>
                 </Box>
 
                 <Box className="select-form button-contract">
-                  <Button className="button-upload-file">
+                  <Button component="label" className="button-upload-file">
                     <img
                       style={{ paddingRight: 5 }}
                       src={IconUploadFile}
                       alt=""
                     />
-                    Upload File
+                    <span>Upload File </span>
+                    <input
+                      accept="image/*,.pdf,.csv,.xlsx,.docx"
+                      type="file"
+                      hidden
+                      onChange={handleFileChangeContract}
+                    />
                   </Button>
                   <Button
                     className="button-add-file"
                     style={{ width: 195, height: 48, marginTop: 10 }}
+                    onClick={handleAddFileContract}
                   >
                     Add
                   </Button>
+                  {selectedFile && (
+                    <div className="file-selected">
+                      <span className="name-file-selected">
+                        {selectedFile.name}
+                      </span>
+                      <button
+                        className="icon-delete-file-selected"
+                        onClick={handleDeleteFile}
+                      >
+                        X
+                      </button>
+                    </div>
+                  )}
                 </Box>
               </Box>
 
@@ -1138,25 +933,116 @@ const UpdateEmployee: React.FC = () => {
           <Divider />
           <Box className="select-form">
             <Grid className="grid-items items-css" item xs={6}>
-              <SelectLayout
-                defaultRender=""
-                name="grade_id"
-                title="Grade"
-                value={inputValue.grade_id}
-                onInputChangeValue={handleInputChange}
-                listOptions={positionOptions}
-              />
+              <Typography>Grade</Typography>
+              <FormControl sx={{ width: "35ch" }}>
+                <Autocomplete
+                  disablePortal
+                  options={grandeOptions}
+                  sx={autocompleteStyles}
+                  getOptionLabel={(option) => option.name}
+                  value={
+                    inputValue.grade_id !== -1
+                      ? grandeOptions[inputValue.grade_id]
+                      : null
+                  }
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      const selectedIndex = grandeOptions.findIndex(
+                        (item) => item.name === newValue.name
+                      );
+                      setInputValue({
+                        ...inputValue,
+                        grade_id: selectedIndex,
+                      });
+                    } else {
+                      setInputValue({
+                        ...inputValue,
+                        grade_id: -1,
+                      });
+                    }
+                  }}
+                  renderOption={(props, option, { selected }) => (
+                    <li
+                      {...props}
+                      style={{
+                        backgroundColor: selected ? "#e9f9ee" : "inherit",
+                        color: selected ? "#30a46c" : "inherit",
+                        padding: "6px 16px",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {option.name}
+                    </li>
+                  )}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+                {inputValue.grade_id !== -1 && (
+                  <Stack direction="row" spacing={1}>
+                    {grandeOptions[inputValue.grade_id]?.benefits.map(
+                      (grade: any) => (
+                        <div key={grade.id}>
+                          <Chip label={grade.name} />
+                        </div>
+                      )
+                    )}
+                  </Stack>
+                )}
+              </FormControl>
             </Grid>
 
             <Grid className="grid-items items-css" item xs={6}>
-              <SelectLayout
-                defaultRender=""
-                name="benefits"
-                title="Benefit"
-                value={inputValue.benefits}
-                onInputChangeValue={handleInputChange}
-                listOptions={positionOptions}
-              />
+              <Typography>Benefit</Typography>
+              <FormControl sx={{ width: "35ch" }}>
+                <Autocomplete
+                  multiple
+                  options={benefitOptions}
+                  getOptionLabel={(option) => option.name}
+                  value={arrayBenefits ?? undefined}
+                  sx={autocompleteStyles}
+                  onChange={handleOptionChange}
+                  disableCloseOnSelect
+                  clearIcon={<ClearIcon />}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{
+                        maxHeight: "150px",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                        marginTop: "5px",
+                      }}
+                    />
+                  )}
+                  renderOption={(props, option, { selected }) => (
+                    <li
+                      {...props}
+                      style={{
+                        backgroundColor: selected ? "#e9f9ee" : "inherit",
+                        color: selected ? "#30a46c" : "inherit",
+                        padding: "6px 16px",
+                        fontSize: "15px",
+                      }}
+                    >
+                      {option.name}
+                    </li>
+                  )}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip
+                        label={option.name}
+                        {...getTagProps({ index })}
+                        onDelete={() => handleDeleteOption(option)}
+                        deleteIcon={
+                          <ClearIcon
+                            onClick={() => handleDeleteOption(option)}
+                            style={{ fontSize: 14 }}
+                          />
+                        }
+                      />
+                    ))
+                  }
+                />
+              </FormControl>
             </Grid>
 
             <Box className="items-css grid-items">
@@ -1189,7 +1075,9 @@ const UpdateEmployee: React.FC = () => {
                     height: 47,
                     backgroundColor: "#0000001f",
                   }}
-                />
+                >
+                  <MenuItem />
+                </Select>
               </FormControl>
             </Box>
           </Box>
@@ -1235,4 +1123,4 @@ const UpdateEmployee: React.FC = () => {
   );
 };
 
-export default UpdateEmployee;
+export default CreateEmployee;

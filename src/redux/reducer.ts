@@ -72,6 +72,24 @@ export const fetchCreateEmployee = createAsyncThunk(
   }
 );
 
+export const fetchDeleteEmployee = createAsyncThunk(
+  "data/fetchDeleteEmployee",
+  async (data: any) => {
+    const response = await fetch(
+      "https://api-training.hrm.div4.pgtest.co/api/v1/employee/multiple-delete",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+        },
+        body: JSON.stringify({record_ids : data}),
+      }
+    );
+  }
+);
+
+
 export const fetchInforUser = createAsyncThunk(
   "data/fetchInforUser",
   async () => {

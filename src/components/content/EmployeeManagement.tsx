@@ -5,7 +5,6 @@ import { debounce } from "lodash";
 import iconAdd from "../../css/img/iconAdd.svg";
 import iconDeleteActive from "../../css/img/iconDelete.svg";
 import iconDeleteDisable from "../../css/img/icon_delete_active.svg";
-import styled from "styled-components";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,15 +12,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
+import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import {
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Pagination,
   Typography,
 } from "@mui/material";
-import { fetchDataEmployee } from "../../redux/reducer";
+import { fetchDataEmployee, fetchDeleteEmployee } from "../../redux/reducer";
 import { useNavigate } from "react-router-dom";
 
 interface EnhancedTableProps {
@@ -31,13 +35,12 @@ interface EnhancedTableProps {
 }
 
 const EmployeeManagement: React.FC = () => {
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState<number>(1);
   const [search, setSearch] = React.useState<string>("");
-  const isSelected = (staff_id: string) => selected.indexOf(staff_id) !== -1;
+  const isSelected = (id: number) => selected.indexOf(id) !== -1;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const rows = useSelector((state: RootState) => state.Employee);
   const isLoading = useSelector((state: RootState) => state.isLoading);
   const { Pages, TotalEmployee, From, To } = useSelector(
@@ -152,6 +155,21 @@ const EmployeeManagement: React.FC = () => {
       label: "Grading",
     },
   ];
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteEmployee = () => {
+    dispatch(fetchDeleteEmployee(selected));
+    dispatch(fetchDataEmployee({ page: page, search: search }));
+    setSelected([])
+    setOpen(false);
+  };
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -167,22 +185,8 @@ const EmployeeManagement: React.FC = () => {
 
   const debounceOnChange = debounce(onChangeSearch, 300);
 
-  // function getEmployeeType(type: number) {
-  //   switch (type) {
-  //     case 0:
-  //       return "Permanent";
-  //     case 1:
-  //       return "Part-time";
-  //     case 2:
-  //       return "Contract";
-  //     default:
-  //       return "";
-  //   }
-  // }
-
   function EnhancedTableHead(props: EnhancedTableProps) {
     const { onSelectAllClick, numSelected, rowCount } = props;
-
     return (
       <TableHead>
         <TableRow>
@@ -216,19 +220,19 @@ const EmployeeManagement: React.FC = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.staff_id);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, staff_id: string) => {
-    const selectedIndex = selected.indexOf(staff_id);
-    let newSelected: readonly string[] = [];
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, staff_id);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -311,6 +315,7 @@ const EmployeeManagement: React.FC = () => {
                 <img src={iconDeleteDisable} alt="" />
               )
             }
+            onClick={handleClickOpen}
           >
             Delete
           </Button>
@@ -334,13 +339,13 @@ const EmployeeManagement: React.FC = () => {
                 </TableRow>
               ) : rows.length !== 0 ? (
                 rows.map((row, index) => {
-                  const isItemSelected = isSelected(row.staff_id);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
                       onDoubleClick={() => handleDoubleClick(row.id)}
-                      onClick={(event) => handleClick(event, row.staff_id)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -604,6 +609,16 @@ const EmployeeManagement: React.FC = () => {
           )}
         </div>
       </div>
+      <Dialog onClose={handleClose} open={open}>
+        <DialogTitle>Delete <CloseIcon/></DialogTitle>
+        <DialogContent>Are you sure you want to delete?</DialogContent>
+        <DialogActions>
+          <Button className="button-cancel" onClick={handleClose}>No</Button>
+          <Button className="button-agree" onClick={handleDeleteEmployee} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

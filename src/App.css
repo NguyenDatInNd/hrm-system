@@ -2,6 +2,83 @@
   font-family: "SVN-Sofia Pro";
   src: url("./css/font/SVN-Sofia\ Pro\ Bold/SVN-Sofia\ Pro\ Bold.otf");
 }
+.css-hlj6pa-MuiDialogActions-root {
+  justify-content: space-around !important;
+}
+
+.button-cancel {
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  -webkit-tap-highlight-color: transparent !important;
+  outline: 0px !important;
+  border: 0px !important;
+  margin: 0px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  vertical-align: middle !important;
+  appearance: none !important;
+  text-decoration: none !important;
+  font-weight: 400 !important;
+  line-height: 1.71429 !important;
+  text-transform: capitalize !important;
+  font-family: "SVN-Sofia Pro Regular", "Public Sans", sans-serif !important;
+  padding: 8px 11px !important;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  height: 48px !important;
+  font-size: 16px !important;
+  min-width: 148px !important;
+  background-color: rgb(241, 243, 245) !important;
+  color: rgb(17, 24, 28) !important;
+}
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  width: 352px !important;
+    height: 178px !important;
+}
+
+.button-agree {
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  -webkit-tap-highlight-color: transparent !important;
+  outline: 0px !important;
+  border: 0px !important;
+  margin: 0px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  vertical-align: middle !important;
+  appearance: none !important;
+  text-decoration: none !important;
+  font-weight: 400 !important;
+  line-height: 1.71429 !important;
+  text-transform: capitalize !important;
+  font-family: "SVN-Sofia Pro Regular", "Public Sans", sans-serif !important;
+  padding: 8px 22px !important;
+  color: rgb(251, 253, 255) !important;
+  background-color: rgb(0, 145, 255) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  height: 48px !important;
+  font-size: 16px !important;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+  min-width: 148px !important;
+}
 
 .css-df57ch-MuiTableCell-root {
   color: rgb(17, 24, 28) !important;
@@ -57,7 +134,7 @@
   opacity: 1 !important;
 }
 
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled{
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12) !important;
 }
 

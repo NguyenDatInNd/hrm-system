@@ -145,9 +145,10 @@ export const fetchUpdateEmployee = createAsyncThunk(
     );
 
     const result = await response.json();
-      
+
     {
       params.dataContract.length > 0 &&
+        params.dataContract.some((data: any) => data.contract_file) &&
         dispatch(
           fetchUploadFileContract({
             index: params.data.id,
@@ -155,7 +156,10 @@ export const fetchUpdateEmployee = createAsyncThunk(
           })
         );
     }
-    console.log(params.dataOther);
+    console.log(
+      "submit",
+      params.dataContract.some((data: any) => data.contract_file)
+    );
     {
       params.dataOther.length > 0 &&
         dispatch(
@@ -224,6 +228,7 @@ export const fetchUploadFileContract = createAsyncThunk(
   "data/fetchUploadFileContract",
   async (params: { index: any; dataContract: any }) => {
     const formData = new FormData();
+    console.log("dispatch", params.dataContract);
     formData.append("employee_id", String(params.index));
     params.dataContract
       .filter((data: any) => data.contract_file)

@@ -168,7 +168,6 @@ const CreateEmployee: React.FC = () => {
       });
     }
   };
-  console.log(selectedFileOther)
 
   const handleDeleteContract = () => {
     setContractData((prevData) => prevData.filter((_, i) => i !== indexFile));

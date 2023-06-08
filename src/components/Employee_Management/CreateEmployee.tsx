@@ -315,8 +315,8 @@ const CreateEmployee: React.FC = () => {
       dataEmployeeId?.contracts && setContractData(dataEmployeeId?.contracts);
       dataEmployeeId?.documents &&
         setSelectedFileOther(dataEmployeeId?.documents);
+      dataEmployeeId?.benefits && setArrayBenefits(dataEmployeeId?.benefits);
     }
-    dataEmployeeId?.benefits && setArrayBenefits(dataEmployeeId?.benefits);
   }, [dataEmployeeId]);
 
   const informationErr =

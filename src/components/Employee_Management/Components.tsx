@@ -1,35 +1,18 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import DatePicker from "react-datepicker";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
-import iconCalendar from "../css/img/icon_calendar.svg";
+import iconCalendar from "../../css/img/icon_calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  Box,
   Select,
-  Divider,
-  Button,
-  Tab,
-  Tabs,
   Typography,
   Grid,
   MenuItem,
   InputAdornment,
   IconButton,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Autocomplete,
-  TextField,
-  Chip,
-  Stack,
 } from "@mui/material";
 import moment from "moment";
 
@@ -73,7 +56,6 @@ export interface SelectProps {
   handleValidate?: Function;
   handleValidateText?: Function;
   defaultRender: string;
-  index?: boolean;
 }
 
 export interface DateSelectProps {
@@ -84,70 +66,6 @@ export interface DateSelectProps {
   isErr?: boolean;
   setIsErr?: any;
 }
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-export function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Box
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box className="box-create-employee" sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </Box>
-  );
-}
-
-export function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-export const genderOptions = [
-  { value: 0, label: "Male" },
-  { value: 1, label: "Female" },
-];
-
-export const marriageStatusOptions = [
-  { value: "", label: "N/A" },
-  { value: 3, label: "Married with 1 kid" },
-  { value: 2, label: "Single" },
-  { value: 1, label: "Married" },
-];
-export const employeeTypeOptions = [
-  { value: "0", label: "Permanent" },
-  { value: "1", label: "Part-time" },
-  { value: "2", label: "Contract" },
-];
-
-export const positionOptions = [
-  { value: "", label: "N/A" },
-  { value: 1, label: "Manager" },
-  { value: 2, label: "Vice Manager" },
-  { value: 3, label: "Junior" },
-];
-
-export const departmentOptions = [
-  { value: "", label: "N/A" },
-  { value: 4, label: "Developer" },
-  { value: 3, label: "Quality Controjk" },
-  { value: 2, label: "Maintenance" },
-  { value: 1, label: "Business Development" },
-];
 
 export function InputLayout({
   showIconRequired,
@@ -281,7 +199,6 @@ export function SelectLayout({
   errorTextState,
   handleValidateText,
   defaultRender,
-  index,
 }: SelectProps) {
   const [error, setError] = React.useState(errorValidate);
   const [errorText, setErrorText] = React.useState(errorTextState);
@@ -309,7 +226,6 @@ export function SelectLayout({
         }}
       >
         <Select
-          disabled={index}
           name={name}
           className={error ? "input-value-style-err" : "input-value-style"}
           value={value}
@@ -321,6 +237,7 @@ export function SelectLayout({
             const selectedOption = listOptions.find(
               (option: any) => option.value === value && option.value !== ""
             );
+
             return selectedOption ? (
               <span>{selectedOption.label}</span>
             ) : (
@@ -427,9 +344,8 @@ export function MyFormHelperText({
   const { focused, filled } = useFormControl() || {};
 
   React.useEffect(() => {
-    if (!filled || value < 0 || value?.length > 50) {
+    if (!filled || value < 0) {
       setErrorText && setErrorText(true);
-      value?.length > 50 && console.log(value?.length > 50)
     } else {
       setErrorText && setErrorText(false);
     }
@@ -437,9 +353,8 @@ export function MyFormHelperText({
       setFocused(true);
     }
 
-    if ((errorText && isFocused) || value < 0 || value?.length > 50) {
+    if ((errorText && isFocused) || value < 0) {
       setError && setError(true);
-      value?.length > 50 && console.log(value?.length > 50)
     } else if (filled) {
       setError && setError(false);
     }
@@ -447,12 +362,7 @@ export function MyFormHelperText({
 
   return (
     <FormHelperText error>
-      {error &&
-        (value < 0
-          ? "Please input value min is 0"
-          : value?.length > 50
-          ? "Maximum length is 50 characters"
-          : message)}
+      {error && (value < 0 ? "Please input value min is 0" : message)}
     </FormHelperText>
   );
 }

@@ -116,16 +116,34 @@ export const Login: React.FC = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://api-training.hrm.div4.pgtest.co/api/v1/company");
+        const response = await fetch(
+          "https://api-training.hrm.div4.pgtest.co/api/v1/company"
+        );
         const result = await response.json();
         setCompany(result.data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
-  
+
     fetchData();
   }, []);
+
+  const validateSpecialCharacterAndUppercase = (_: any, value: any) => {
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    const uppercaseRegex = /[A-Z]/;
+
+    if (
+      value &&
+      (!specialCharRegex.test(value) || !uppercaseRegex.test(value))
+    ) {
+      return Promise.reject(
+        "The requirement is to have at least one special character and an uppercase letter"
+      );
+    }
+
+    return Promise.resolve();
+  };
 
   const onFinish = async (values: UserSubmitForm) => {
     try {
@@ -208,9 +226,9 @@ export const Login: React.FC = () => {
       {contextHolder}
       <LayoutStyled>
         <img src={iconBF} alt="" style={{ width: 100, marginTop: 64 }} />
-        <h1 style={{fontSize:24}}> HR Management System</h1>
+        <h1 style={{ fontSize: 24 }}> HR Management System</h1>
         <Content>
-          <h1 style={{ textAlign: "center", fontSize:24 }}>Sign In</h1>
+          <h1 style={{ textAlign: "center", fontSize: 24 }}>Sign In</h1>
           <Card bordered={false} style={{ width: 350 }}>
             <Form
               layout="vertical"
@@ -221,7 +239,13 @@ export const Login: React.FC = () => {
               <Form.Item
                 name="username"
                 label="Username"
-                rules={[{ required: true, message: "Please enter username" }]}
+                rules={[
+                  { required: true, message: "Please enter username" },
+                  {
+                    max: 50,
+                    message: "Maximum length is 30 characters",
+                  },
+                ]}
               >
                 <InputStyled />
               </Form.Item>
@@ -229,7 +253,16 @@ export const Login: React.FC = () => {
               <Form.Item
                 name="password"
                 label="Password"
-                rules={[{ required: true, message: "Please enter password!" }]}
+                rules={[
+                  { required: true, message: "Please enter password!" },
+                  {
+                    max: 50,
+                    message: "Maximum length is 30 characters",
+                  },
+                  {
+                    validator: validateSpecialCharacterAndUppercase,
+                  },
+                ]}
               >
                 <PasswordStyled
                   type="password"
@@ -260,7 +293,18 @@ export const Login: React.FC = () => {
                   type={loading ? "default" : "primary"}
                   htmlType="submit"
                 >
-                  {loading ? <Spin indicator={ <LoadingOutlined style={{ fontSize: 24, color: "#ccc" }} spin />} /> : "Sign In"}
+                  {loading ? (
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          style={{ fontSize: 24, color: "#ccc" }}
+                          spin
+                        />
+                      }
+                    />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
               </Form.Item>
 

@@ -46,7 +46,7 @@
 
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   width: 352px !important;
-    height: 178px !important;
+  height: 178px !important;
 }
 
 .button-agree {
@@ -510,14 +510,16 @@
   min-height: 300px;
 }
 
-.css-1ndpvdd-MuiTableCell-root {
+/* css table contract */
+.css-dwuj3p-MuiTableCell-root {
   line-height: 2rem !important;
   padding: 0 !important;
   background-color: rgb(236, 238, 240) !important;
   color: rgb(17, 24, 28) !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  border: 2px solid white;
+  border: 1px solid white;
+  border-bottom: none !important;
 }
 
 .table-cell-first {
@@ -762,4 +764,78 @@
 
 .css-w4z10b-MuiStack-root > :not(style) + :not(style) {
   margin-left: 0 !important;
+}
+
+.table-contract-data.css-1yhpg23-MuiTableCell-root {
+  text-align: center !important;
+}
+
+.row.css-1yhpg23-MuiTableCell-root {
+  width: 150px !important;
+}
+.delete-contract.css-nz3zgg-MuiButtonBase-root-MuiChip-root {
+  color: rgb(229, 72, 77) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  padding: 8px 12px !important;
+  background-color: rgb(255, 239, 239) !important;
+  min-width: 40px !important;
+  height: 24px !important;
+  cursor: pointer;
+}
+
+.delete-other.css-nz3zgg-MuiButtonBase-root-MuiChip-root {
+  color: rgb(229, 72, 77) !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  padding: 8px 0 8px 11px !important;
+  background-color: rgb(255, 239, 239) !important;
+  height: 24px !important;
+  cursor: pointer;
+}
+
+.row-contract.css-1q1u3t4-MuiTableRow-root {
+  vertical-align: middle !important;
+  outline: 0px !important;
+  background-color: rgb(248, 249, 250) !important;
+  opacity: 1 !important;
+}
+
+.row-contract.css-z5d8r6-MuiTableCell-root,
+.row-contract.css-4b1vly-MuiTableCell-root,
+.row-contract.css-1ex1afd-MuiTableCell-root {
+  color: rgb(104, 112, 118) !important;
+  padding: 4px 10px !important;
+  border: 1px solid white !important;
+  line-height: 1.5 !important;
+  font-size: 12px !important;
+}
+
+.row-other-name.css-z5d8r6-MuiTableCell-root {
+  text-transform: uppercase !important;
+  width: 345px !important;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+  background-color: #0000001f !important;
+}
+
+.download-contract {
+  width: 125px;
+  color: rgb(48, 164, 108) !important;
+  background-color: rgb(233, 249, 238) !important;
+}
+
+.download-contract.css-6od3lo-MuiChip-label {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.download-other {
+  color: rgb(48, 164, 108) !important;
+  background-color: rgb(233, 249, 238) !important;
+  padding: 8px 0 8px 11px !important;
 }
